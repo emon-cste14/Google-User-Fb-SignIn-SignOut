@@ -13,6 +13,7 @@ import {
   Link
 } from "react-router-dom";
 import PrivateRouter from './Component/PrivateRouter';
+import LoginUser from './Component/LoginUser';
 
 export const MyContext = React.createContext();
 
@@ -25,6 +26,7 @@ function App() {
       <img src={logInUser.photo} alt=""/>
       
       <MyContext.Provider value={[logInUser,setlogInUser]}>
+        <LoginUser />
           <Router>
               <Header login={logInUser.login} />
                   <Switch>

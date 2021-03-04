@@ -12,7 +12,38 @@ export default function Login() {
   const location = useLocation();
   const { from } = location.state || { from: { pathname: "/" } };
 
-  var provider = new firebase.auth.GoogleAuthProvider();
+  const provider = new firebase.auth.GoogleAuthProvider();
+  const fbProvider = new firebase.auth.FacebookAuthProvider();
+
+  function GoogleSignOut(){
+    firebase.auth().signOut().then(() => {
+      const newSignInUser={
+        name:'',
+        email:'',
+        photo:'',
+        login:false
+      }
+      setlogInUser(newSignInUser)
+    }).catch((error) => {
+      // An error happened.
+    });
+  }
+  function FbSignIn(){
+    firebase
+  .auth()
+  .signInWithPopup(fbProvider)
+  .then((result) => {
+    var user = result.user;
+    console.log(user)
+  })
+  .catch((error) => {
+   
+    var errorMessage = error.message;
+
+  });
+
+  }
+
   function GoogleSignIn(){
     firebase.auth()
   .signInWithPopup(provider)
@@ -30,25 +61,14 @@ export default function Login() {
     var errorMessage = error.message;
   });
   }
-  function GoogleSignOut(){
-    firebase.auth().signOut().then(() => {
-      const newSignInUser={
-        name:'',
-        email:'',
-        photo:'',
-        login:false
-      }
-      setlogInUser(newSignInUser)
-    }).catch((error) => {
-      // An error happened.
-    });
-  }
+
   return (
     <div>
       <h1>This is Login page</h1>
      {
        logInUser.login? <button onClick={GoogleSignOut}>Sign Out</button>: <button onClick={GoogleSignIn}>Using Google</button>
      }
+     <button onClick={FbSignIn}>Using Facebook</button>
     </div>
   )
 }
